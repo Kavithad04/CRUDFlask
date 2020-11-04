@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Edit Post</title>
+
+{% endblock %}
+
+{% block body %}
+    <h1>Editing Post</h1>
+
+    <hr>
+    <form action='/posts/edit/{{ job_post.id }}' method='POST'>
+        <label for="title">Job Title: </label>
+        <input type='text' class="form-control" name='title' aria-label="Enter Title" id='title'
+               value="{{ job_post.title }}">
+        <br>
+        <label for="Description">Job Description: </label>
+        <textarea class="form-control" class="form-control" aria-label="Enter description" rows="3" name='description'
+                  id='description'>{{ job_post.description }}</textarea>
+        <br>
+        <label for="PayperHour">Pay per Hour:</label>
+        <input type='text' class="form-control" class="form-control" aria-label="Enter pay" name='pay_per_hour'
+               id='pay_per_hour' value="{{ job_post.pay_per_hour }}">
+        <br>
+        <label for="ExpiryDate">Job Expiry Date:</label>
+
+        <input type="text" hidden id='expiry_date' value="{{ job_post.expiry_date }}">
+        <input type="datetime-local" placeholder='YYYY-MM-DD HH:MM' class="form-control" name='expiry_date1'
+               id='expiry_date1'>
+        <br>
+        <input type='submit' value='Save'>
+    </form>
+    <hr>
+    <script type="text/javascript">
+        Number.prototype.AddZero = function (b, c) {
+            var l = (String(b || 10).length - String(this).length) + 1;
+            return l > 0 ? new Array(l).join(c || '0') + this : this;
+        }//to add zero to less than 10,
+
+        var elem = document.getElementById("expiry_date");
+        var temp = elem.value;
+        var d = new Date(new Date(temp).toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
+        var splittedString=d.split(":");
+        date=splittedString.slice(0,-1).join(':');
+        var elem1 = document.getElementById("expiry_date1");
+        elem1.value = date;
+    </script>
+{% endblock %}
